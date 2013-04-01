@@ -10,6 +10,12 @@ License: GPLv3
 
 Let your users pay to view content. Use it to hide download links, images, paragraphs or other shortcodes. This plugin allows the administrator to use a shortcode and hide certain content from guests until payment is completed. Uses PayPal.
 
+To hide post/page content (text, image, shortcode) use the `[paypal]Your content here[/paypal]` shortcode. It will use the default price and currency.
+To specify a price for your hidden content and override the default one, use the `[paypal amount=11]Your content here[/paypal]` shortcode.
+Place another shortcode inside the Pay2View payment shortcode: `[paypal][another-shortcode][/paypal]`.
+
+Only guests and non-members see the payment button. Members always see the hidden content.
+
 == Installation ==
 
 1. Upload the folder `pay2view` to the `/wp-content/plugins/` directory
