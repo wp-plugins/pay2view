@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pay2View\n"
+"POT-Creation-Date: 2013-04-01 12:08+0200\n"
+"PO-Revision-Date: 2013-04-01 12:08+0200\n"
+"Last-Translator: Ciprian Popescu <getbutterfly@gmail.com>\n"
+"Language-Team: Ciprian Popescu <getbutterfly@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../pay2view.php:50
+msgid "Settings updated."
+msgstr ""
+
+#: ../pay2view.php:59
+msgid "General Settings"
+msgstr ""
+
+#: ../pay2view.php:64
+msgid "PayPal&trade; email"
+msgstr ""
+
+#: ../pay2view.php:68
+msgid "Default price"
+msgstr ""
+
+#: ../pay2view.php:72
+msgid "PayPal&trade; Currency"
+msgstr ""
+
+#: ../pay2view.php:108
+msgid "Read more about PayPal accepted currencies here."
+msgstr ""
+
+#: ../pay2view.php:112
+msgid "Message"
+msgstr ""
+
+#: ../pay2view.php:117
+msgid "Save Changes"
+msgstr ""
+
+#: ../pay2view.php:120
+msgid "Help and Support"
+msgstr ""
+
+#: ../pay2view.php:121
+msgid ""
+"To hide post/page content (text, image, shortcode) use the <code>[paypal]"
+"Your content here[/paypal]</code> shortcode. It will use the default price "
+"and currency."
+msgstr ""
+
+#: ../pay2view.php:122
+msgid ""
+"To specify a price for your hidden content and override the default one, use "
+"the <code>[paypal amount=11]Your content here[/paypal]</code> shortcode."
+msgstr ""
+
+#: ../pay2view.php:123
+msgid ""
+"Place another shortcode inside the <strong>Pay2View</strong> payment "
+"shortcode: <code>[paypal][another-shortcode][/paypal]</code>."
+msgstr ""
+
+#: ../pay2view.php:124
+msgid ""
+"Only guests and non-members see the payment button. Members always see the "
+"hidden content."
+msgstr ""
