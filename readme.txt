@@ -2,8 +2,8 @@
 Contributors: butterflymedia, getbutterfly
 Tags: paypal, hide content, pay to see content, free for members, shortcode
 Requires at least: 3.3
-Tested up to: 3.6-alpha
-Stable tag: 0.12
+Tested up to: 3.6-RC2
+Stable tag: 0.13
 License: GPLv3
 
 == Description ==
@@ -23,6 +23,11 @@ Only guests and non-members see the payment button. Members always see the hidde
 3. Go to Settings | PayPal Pay2View and configure your plugin
 
 == Changelog ==
+
+= 0.13 =
+* Added capabilities
+* Extended translation strings
+* Fixed several validation options
 
 = 0.12 =
 * Added internationalization

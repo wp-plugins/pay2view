@@ -5,13 +5,13 @@ Plugin URI: http://getbutterfly.com/
 Description: Let your users pay to view content. Use it to hide download links, images, paragraphs or other shortcodes. This plugin allows the administrator to use a shortcode and hide certain content from guests until payment is completed. Uses PayPal.
 Author: Ciprian Popescu
 Author URI: http://getbutterfly.com/
-Version: 0.12
+Version: 0.13
 License: GPLv3
 */
 
 define('PAY2VIEW_PLUGIN_URL', WP_PLUGIN_URL . '/' . dirname(plugin_basename(__FILE__)));
 define('PAY2VIEW_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)));
-define('PAY2VIEW_VERSION', '0.12');
+define('PAY2VIEW_VERSION', '0.13');
 
 if(!class_exists('RooPay2View')) {
 	class RooPay2View {
@@ -23,10 +23,11 @@ if(!class_exists('RooPay2View')) {
 
 		function getAdminOptions() {
 			$ppAdminOption = array(
-				'paypal_email' 	=> 'your@paypalmail.com',
-				'd_amount' 		=> 10,
-				'currency' 		=> 'USD',
-				'message' 		=> 'You must pay to see the content'
+				'p2v_capability' 	=> 'read',
+				'paypal_email' 		=> 'your@paypalemail.com',
+				'd_amount' 			=> 10,
+				'currency' 			=> 'USD',
+				'message' 			=> 'You must pay to see the content'
 			);
 			$tmpOption = get_option($this->adminOptionsName);
 			if(!empty($tmpOption)) {
@@ -41,10 +42,11 @@ if(!class_exists('RooPay2View')) {
 		function printAdminPanel() {
 			$tmpOption = $this->getAdminOptions();
 			if(isset($_POST['Submit'])) {
-				$tmpOption['paypal_email'] 	= $_POST['paypal_email'];
-				$tmpOption['d_amount'] 		= $_POST['d_amount'];
-				$tmpOption['currency'] 		= $_POST['currency'];
-				$tmpOption['message'] 		= $_POST['message'];
+				$tmpOption['p2v_capability'] 	= $_POST['p2v_capability'];
+				$tmpOption['paypal_email'] 		= $_POST['paypal_email'];
+				$tmpOption['d_amount'] 			= $_POST['d_amount'];
+				$tmpOption['currency'] 			= $_POST['currency'];
+				$tmpOption['message'] 			= $_POST['message'];
 				update_option($this->adminOptionsName, $tmpOption);
 				?>
 				<div class="updated"><p><?php _e('Settings updated.', 'pay2view'); ?></p></div>
@@ -61,11 +63,19 @@ if(!class_exists('RooPay2View')) {
 							<form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>"/>  
 								<table class="widefat">
 									<tr>
-										<td><?php _e('PayPal&trade; email', 'pay2view'); ?></td>
-										<td><input type="email" name="paypal_email" id='paypal_email' value="<?php echo $tmpOption['paypal_email']; ?>" class="regular-text"></td>
+										<td><?php _e('Capability Behaviour', 'pay2view'); ?></td>
+										<td>
+											<input type="text" name="p2v_capability" id="p2v_capability" value="<?php echo $tmpOption['p2v_capability']; ?>" class="regular-text">
+											<br><small><?php _e('For example, &quot;read&quot; applies to all members, while &quot;manage_options&quot; applies to administrators only.', 'pay2view'); ?></small>
+											<br><small><a href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table"><?php _e('Read more about WordPress capabilities here.', 'pay2view'); ?></a></small>
+										</td>
 									</tr>
 									<tr>
-										<td><?php _e('Default price', 'pay2view'); ?></td>
+										<td><?php _e('PayPal&trade; Email', 'pay2view'); ?></td>
+										<td><input type="email" name="paypal_email" id="paypal_email" value="<?php echo $tmpOption['paypal_email']; ?>" class="regular-text"></td>
+									</tr>
+									<tr>
+										<td><?php _e('Default Price', 'pay2view'); ?></td>
 										<td><input type="number" min="0" max="99999" name="d_amount" value="<?php echo $tmpOption['d_amount']; ?>"></td>
 									</tr>
 									<tr>
@@ -121,7 +131,7 @@ if(!class_exists('RooPay2View')) {
 							<p><?php _e('To hide post/page content (text, image, shortcode) use the <code>[paypal]Your content here[/paypal]</code> shortcode. It will use the default price and currency.', 'pay2view'); ?></p>
 							<p><?php _e('To specify a price for your hidden content and override the default one, use the <code>[paypal amount=11]Your content here[/paypal]</code> shortcode.', 'pay2view'); ?></p>
 							<p><?php _e('Place another shortcode inside the <strong>Pay2View</strong> payment shortcode: <code>[paypal][another-shortcode][/paypal]</code>.', 'pay2view'); ?></p>
-							<p><?php _e('Only guests and non-members see the payment button. Members always see the hidden content.', 'pay2view'); ?></p>
+							<p><?php _e('Based on your capability behaviour selection, only guests and non-members see the payment button. Members always see the hidden content.', 'pay2view'); ?></p>
 							<p><small><a href="http://getbutterfly.com/wordpress-plugins/pay2view/" rel="external">http://getbutterfly.com/wordpress-plugins/pay2view/</a></small></p>
 						</div>
 					</div>
@@ -140,7 +150,7 @@ if(!class_exists('RooPay2View')) {
 			$atts['email'] 		= $tmpOption['paypal_email'];
 			$atts['url'] 		= $atts['paypal_url'];
 
-			if(null != $content && (current_user_can('read') || ($_GET['id'] + 600) > time()))
+			if(null != $content && (current_user_can($tmpOption['p2v_capability']) || ($_GET['id'] + 600) > time()))
 				return $content; 
 			else {
 				$message = $this->genButton($atts);
