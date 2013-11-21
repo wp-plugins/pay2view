@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 define('PAY2VIEW_PLUGIN_URL', WP_PLUGIN_URL . '/' . dirname(plugin_basename(__FILE__)));
 define('PAY2VIEW_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)));
-define('PAY2VIEW_VERSION', '0.13');
+define('PAY2VIEW_VERSION', '0.14');
 
 if(!class_exists('RooPay2View')) {
 	class RooPay2View {
