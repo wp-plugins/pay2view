@@ -5,8 +5,23 @@ Plugin URI: http://getbutterfly.com/
 Description: Let your users pay to view content. Use it to hide download links, images, paragraphs or other shortcodes. This plugin allows the administrator to use a shortcode and hide certain content from guests until payment is completed. Uses PayPal.
 Author: Ciprian Popescu
 Author URI: http://getbutterfly.com/
-Version: 0.13
+Version: 0.14
 License: GPLv3
+
+Copyright 2013 Ciprian Popescu (email: getbutterfly@gmail.com)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 define('PAY2VIEW_PLUGIN_URL', WP_PLUGIN_URL . '/' . dirname(plugin_basename(__FILE__)));
@@ -168,7 +183,7 @@ if(!class_exists('RooPay2View')) {
 			<br>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input type="hidden" name="cmd" value="_xclick">
-				<input type="hidden" name="business" value="' . $tmpOption['paypal_url'] . '">
+				<input type="hidden" name="business" value="' . $tmpOption['paypal_email'] . '">
 				<input type="hidden" name="currency_code" value="' . $tmpOption['currency'] . '">
 				<input type="hidden" name="return" value="' . $_SERVER['REQUEST_URI'] . '&id=' . time() . '">
 				<input type="hidden" name="amount" value="' . $a['amount'] . '">

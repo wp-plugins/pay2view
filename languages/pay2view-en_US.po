@@ -1,91 +1,92 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pay2View\n"
-"POT-Creation-Date: 2013-07-31 11:47+0200\n"
-"PO-Revision-Date: 2013-07-31 11:47+0200\n"
+"POT-Creation-Date: 2013-11-21 20:39-0000\n"
+"PO-Revision-Date: 2013-11-21 20:39-0000\n"
 "Last-Translator: Ciprian Popescu <getbutterfly@gmail.com>\n"
 "Language-Team: Ciprian Popescu <getbutterfly@gmail.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-KeywordsList: _;__;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../pay2view.php:52
+#: ../pay2view.php:67
 msgid "Settings updated."
 msgstr ""
 
-#: ../pay2view.php:61
+#: ../pay2view.php:76
 msgid "General Settings"
 msgstr ""
 
-#: ../pay2view.php:66
+#: ../pay2view.php:81
 msgid "Capability Behaviour"
 msgstr ""
 
-#: ../pay2view.php:69
+#: ../pay2view.php:84
 msgid ""
 "For example, &quot;read&quot; applies to all members, while &quot;"
 "manage_options&quot; applies to administrators only."
 msgstr ""
 
-#: ../pay2view.php:70
+#: ../pay2view.php:85
 msgid "Read more about WordPress capabilities here."
 msgstr ""
 
-#: ../pay2view.php:74
+#: ../pay2view.php:89
 msgid "PayPal&trade; Email"
 msgstr ""
 
-#: ../pay2view.php:78
+#: ../pay2view.php:93
 msgid "Default Price"
 msgstr ""
 
-#: ../pay2view.php:82
+#: ../pay2view.php:97
 msgid "PayPal&trade; Currency"
 msgstr ""
 
-#: ../pay2view.php:118
+#: ../pay2view.php:133
 msgid "Read more about PayPal accepted currencies here."
 msgstr ""
 
-#: ../pay2view.php:122
+#: ../pay2view.php:137
 msgid "Message"
 msgstr ""
 
-#: ../pay2view.php:127
+#: ../pay2view.php:142
 msgid "Save Changes"
 msgstr ""
 
-#: ../pay2view.php:130
+#: ../pay2view.php:145
 msgid "Help and Support"
 msgstr ""
 
-#: ../pay2view.php:131
+#: ../pay2view.php:146
 msgid ""
 "To hide post/page content (text, image, shortcode) use the <code>[paypal]"
 "Your content here[/paypal]</code> shortcode. It will use the default price "
 "and currency."
 msgstr ""
 
-#: ../pay2view.php:132
+#: ../pay2view.php:147
 msgid ""
 "To specify a price for your hidden content and override the default one, use "
 "the <code>[paypal amount=11]Your content here[/paypal]</code> shortcode."
 msgstr ""
 
-#: ../pay2view.php:133
+#: ../pay2view.php:148
 msgid ""
 "Place another shortcode inside the <strong>Pay2View</strong> payment "
 "shortcode: <code>[paypal][another-shortcode][/paypal]</code>."
 msgstr ""
 
-#: ../pay2view.php:134
+#: ../pay2view.php:149
 msgid ""
 "Based on your capability behaviour selection, only guests and non-members "
 "see the payment button. Members always see the hidden content."
