@@ -5,7 +5,7 @@ Plugin URI: http://getbutterfly.com/
 Description: Let your users pay to view content. Use it to hide download links, images, paragraphs or other shortcodes. This plugin allows the administrator to use a shortcode and hide certain content from guests until payment is completed. Uses PayPal.
 Author: Ciprian Popescu
 Author URI: http://getbutterfly.com/
-Version: 0.14
+Version: 0.15
 License: GPLv3
 
 Copyright 2013 Ciprian Popescu (email: getbutterfly@gmail.com)
@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 define('PAY2VIEW_PLUGIN_URL', WP_PLUGIN_URL . '/' . dirname(plugin_basename(__FILE__)));
 define('PAY2VIEW_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)));
-define('PAY2VIEW_VERSION', '0.14');
+define('PAY2VIEW_VERSION', '0.15');
 
 if(!class_exists('RooPay2View')) {
 	class RooPay2View {
