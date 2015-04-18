@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Pay2View
-Plugin URI: http://getbutterfly.com/
+Plugin URI: http://getbutterfly.com/wordpress-plugins-free/
 Description: Let your users pay to view content. Use it to hide download links, images, paragraphs or other shortcodes. This plugin allows the administrator to use a shortcode and hide certain content from guests until payment is completed. Uses PayPal.
 Author: Ciprian Popescu
 Author URI: http://getbutterfly.com/
-Version: 0.15
+Version: 0.3
 License: GPLv3
 
-Copyright 2013 Ciprian Popescu (email: getbutterfly@gmail.com)
+Copyright 2013, 2014, 2015 Ciprian Popescu (email: getbutterfly@gmail.com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 define('PAY2VIEW_PLUGIN_URL', WP_PLUGIN_URL . '/' . dirname(plugin_basename(__FILE__)));
 define('PAY2VIEW_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)));
-define('PAY2VIEW_VERSION', '0.15');
+define('PAY2VIEW_VERSION', '0.3');
 
 if(!class_exists('RooPay2View')) {
 	class RooPay2View {
@@ -38,11 +38,13 @@ if(!class_exists('RooPay2View')) {
 
 		function getAdminOptions() {
 			$ppAdminOption = array(
-				'p2v_capability' 	=> 'read',
-				'paypal_email' 		=> 'your@paypalemail.com',
-				'd_amount' 			=> 10,
-				'currency' 			=> 'USD',
-				'message' 			=> 'You must pay to see the content'
+				'p2v_capability'    => 'read',
+				'paypal_email'      => 'your@paypalemail.com',
+				'd_amount'          => 10,
+				'currency'          => 'USD',
+				'time'              => 600,
+				'message'           => 'You must pay to see the content',
+				'button'            => 'https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif',
 			);
 			$tmpOption = get_option($this->adminOptionsName);
 			if(!empty($tmpOption)) {
@@ -57,12 +59,15 @@ if(!class_exists('RooPay2View')) {
 		function printAdminPanel() {
 			$tmpOption = $this->getAdminOptions();
 			if(isset($_POST['Submit'])) {
-				$tmpOption['p2v_capability'] 	= $_POST['p2v_capability'];
-				$tmpOption['paypal_email'] 		= $_POST['paypal_email'];
-				$tmpOption['d_amount'] 			= $_POST['d_amount'];
-				$tmpOption['currency'] 			= $_POST['currency'];
-				$tmpOption['message'] 			= $_POST['message'];
-				update_option($this->adminOptionsName, $tmpOption);
+				$tmpOption['p2v_capability']    = $_POST['p2v_capability'];
+				$tmpOption['paypal_email']      = $_POST['paypal_email'];
+				$tmpOption['d_amount']          = $_POST['d_amount'];
+				$tmpOption['currency']          = $_POST['currency'];
+				$tmpOption['time']              = $_POST['time'];
+				$tmpOption['message']           = $_POST['message'];
+				$tmpOption['button']            = $_POST['button'];
+
+                update_option($this->adminOptionsName, $tmpOption);
 				?>
 				<div class="updated"><p><?php _e('Settings updated.', 'pay2view'); ?></p></div>
 				<?php
@@ -70,7 +75,7 @@ if(!class_exists('RooPay2View')) {
 			?>
 			<div class="wrap">  
 				<div id="icon-options-general" class="icon32"></div>
-				<h2>Pay2View <small>&middot; <?php echo PAY2VIEW_VERSION; ?></small></h2>
+				<h2>Multiuser Pay2View (Raspberry Edition) <sup><small><?php echo PAY2VIEW_VERSION; ?></small></sup></h2>
 				<div id="poststuff" class="ui-sortable meta-box-sortables">
 					<div class="postbox">
 						<h3><?php _e('General Settings', 'pay2view'); ?></h3>
@@ -78,7 +83,7 @@ if(!class_exists('RooPay2View')) {
 							<form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>"/>  
 								<table class="widefat">
 									<tr>
-										<td><?php _e('Capability Behaviour', 'pay2view'); ?></td>
+										<td><label for="p2v_capability"><?php _e('Capability Behaviour', 'pay2view'); ?></label></td>
 										<td>
 											<input type="text" name="p2v_capability" id="p2v_capability" value="<?php echo $tmpOption['p2v_capability']; ?>" class="regular-text">
 											<br><small><?php _e('For example, &quot;read&quot; applies to all members, while &quot;manage_options&quot; applies to administrators only.', 'pay2view'); ?></small>
@@ -86,16 +91,23 @@ if(!class_exists('RooPay2View')) {
 										</td>
 									</tr>
 									<tr>
-										<td><?php _e('PayPal&trade; Email', 'pay2view'); ?></td>
+										<td><label for="paypal_email"><?php _e('PayPal&trade; Email', 'pay2view'); ?></label></td>
 										<td><input type="email" name="paypal_email" id="paypal_email" value="<?php echo $tmpOption['paypal_email']; ?>" class="regular-text"></td>
 									</tr>
 									<tr>
-										<td><?php _e('Default Price', 'pay2view'); ?></td>
-										<td><input type="number" min="0" max="99999" name="d_amount" value="<?php echo $tmpOption['d_amount']; ?>"></td>
+										<td><label for="d_amount"><?php _e('Default Price', 'pay2view'); ?></label></td>
+										<td><input type="number" min="0" max="99999" name="d_amount" id="d_amount" value="<?php echo $tmpOption['d_amount']; ?>" class="text"></td>
 									</tr>
 									<tr>
-										<td><?php _e('PayPal&trade; Currency', 'pay2view'); ?></td>
-										<td><select name="currency">
+										<td><label for="time"><?php _e('Default Cookie Time', 'pay2view'); ?></label></td>
+										<td>
+                                            <input type="number" min="0" max="99999999" name="time" id="time" value="<?php echo $tmpOption['time']; ?>" class="text"> <label>seconds</label>
+                                            <br><small>This is the default lifetime of the payment cookie.</small>
+                                        </td>
+									</tr>
+									<tr>
+										<td><label for="currency"><?php _e('PayPal&trade; Currency', 'pay2view'); ?></label></td>
+										<td><select id="currency" name="currency" class="regular-text">>
 											<?php
 											$currency = array(
 												'USD' => 'US Dollar',
@@ -130,12 +142,22 @@ if(!class_exists('RooPay2View')) {
 											}
 											?>
 											</select>
-											<br><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/sell/mc/mc_intro-outside" rel="external"><?php _e('Read more about PayPal accepted currencies here.', 'pay2view'); ?></a></small>
+											<br><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/sell/mc/mc_intro-outside" rel="external"><?php _e('Read more about PayPal&trade; accepted currencies here.', 'pay2view'); ?></a></small>
 										</td>
 									</tr>
 									<tr>
-										<td><?php _e('Message', 'pay2view'); ?></td>
-										<td><input type="text" name="message" value="<?php echo $tmpOption['message']; ?>" class="regular-text"></td>
+										<td><label for="message"><?php _e('Message', 'pay2view'); ?></label></td>
+										<td><input type="text" name="message" id="message" value="<?php echo $tmpOption['message']; ?>" class="regular-text"></td>
+									</tr>
+									<tr>
+										<td><label for="button"><?php _e('PayPal&trade; Button URL', 'pay2view'); ?></label></td>
+										<td><input type="url" name="button" id="button" value="<?php echo $tmpOption['button']; ?>" class="regular-text"></td>
+									</tr>
+									<tr>
+										<td><label for="button"><?php _e('PayPal&trade; Button Preview', 'pay2view'); ?></label></td>
+										<td>
+                                            <p><img src="<?php echo $tmpOption['button']; ?>" alt=""></p>
+                                        </td>
 									</tr>
 								</table>
 
@@ -143,11 +165,11 @@ if(!class_exists('RooPay2View')) {
 							</form>
 
 							<h4><?php _e('Help and Support', 'pay2view'); ?></h4>
-							<p><?php _e('To hide post/page content (text, image, shortcode) use the <code>[paypal]Your content here[/paypal]</code> shortcode. It will use the default price and currency.', 'pay2view'); ?></p>
-							<p><?php _e('To specify a price for your hidden content and override the default one, use the <code>[paypal amount=11]Your content here[/paypal]</code> shortcode.', 'pay2view'); ?></p>
-							<p><?php _e('Place another shortcode inside the <strong>Pay2View</strong> payment shortcode: <code>[paypal][another-shortcode][/paypal]</code>.', 'pay2view'); ?></p>
+							<p><?php _e('To hide post/page content (text, image, shortcode) use the <code>[paypal email="myemail@domain.com"]Your content here[/paypal]</code> shortcode. It will use the default price and currency.', 'pay2view'); ?></p>
+							<p><?php _e('To specify a price for your hidden content and override the default one, use the <code>[paypal email="myemail@domain.com" amount="12"]Your content here[/paypal]</code> shortcode.', 'pay2view'); ?></p>
+							<p><?php _e('Place another shortcode inside the <strong>Multiuser Pay2View</strong> payment shortcode: <code>[paypal][another-shortcode][/paypal]</code>.', 'pay2view'); ?></p>
 							<p><?php _e('Based on your capability behaviour selection, only guests and non-members see the payment button. Members always see the hidden content.', 'pay2view'); ?></p>
-							<p><small><a href="http://getbutterfly.com/wordpress-plugins/pay2view/" rel="external">http://getbutterfly.com/wordpress-plugins/pay2view/</a></small></p>
+							<p><small><a href="http://getbutterfly.com/wordpress-plugins/multiuser-pay2view/" rel="external">http://getbutterfly.com/wordpress-plugins/multiuser-pay2view/</a></small></p>
 						</div>
 					</div>
 				</div>
@@ -156,16 +178,26 @@ if(!class_exists('RooPay2View')) {
 		}
 
 		function HideContent($atts, $content = null) {
-			extract(shortcode_atts(array(
-				'amount' => 16
+			$tmpOption = $this->getAdminOptions();
+
+            extract(shortcode_atts(array(
+                'email' => $tmpOption['paypal_email'],
+				'amount' => $tmpOption['d_amount'],
+                'currency' => $tmpOption['currency'],
 			), $atts));
 
-			$tmpOption 			= $this->getAdminOptions(); 
 			$atts['paypal_url'] = 'https://www.paypal.com/';
-			$atts['email'] 		= $tmpOption['paypal_email'];
 			$atts['url'] 		= $atts['paypal_url'];
+            if($email != '')
+                $atts['email'] = $email;
 
-			if(null != $content && (current_user_can($tmpOption['p2v_capability']) || ($_GET['id'] + 600) > time()))
+            if($amount != '')
+                $atts['amount'] = $amount;
+
+            if($currency != '')
+                $atts['currency'] = $currency;
+
+			if(null != $content && (current_user_can($tmpOption['p2v_capability']) || ($_GET['id'] + $tmpOption['p2v_time']) > time()))
 				return $content; 
 			else {
 				$message = $this->genButton($atts);
@@ -194,6 +226,8 @@ if(!class_exists('RooPay2View')) {
 			</form>
 			<br><br>';
 
+            $button .= 'Generating button for ' . $a['email'] . ' with a value of ' . $a['currency'] . $a['amount'] . '';
+
 			return $button;
 		}
 	}
@@ -208,13 +242,13 @@ if(!function_exists('RooPay2View_ap')) {
 		if(!isset($p2v))
 			return;
 
-		add_options_page('Pay2View', 'Pay2View', 'manage_options', basename(__FILE__), array(&$p2v, 'printAdminPanel'));
+		add_options_page('Multiuser Pay2View', 'Multiuser Pay2View', 'manage_options', basename(__FILE__), array(&$p2v, 'printAdminPanel'));
 	}
 }
 if(isset($p2v)) {
 	add_action('admin_menu', 'RooPay2View_ap');
 	add_action('activate_pay2view/pay2view.php', array(&$p2v, 'init'));
-	add_shortcode('paypal',array(&$p2v, 'HideContent'));
+	add_shortcode('paypal', array(&$p2v, 'HideContent'));
 
 	add_filter('the_content', 'do_shortcode');
 }
