@@ -73,8 +73,7 @@ if(!class_exists('RooPay2View')) {
 				<?php
 			}
 			?>
-			<div class="wrap">  
-				<div id="icon-options-general" class="icon32"></div>
+			<div class="wrap">
 				<h2>Multiuser Pay2View (Raspberry Edition) <sup><small><?php echo PAY2VIEW_VERSION; ?></small></sup></h2>
 				<div id="poststuff" class="ui-sortable meta-box-sortables">
 					<div class="postbox">
@@ -169,9 +168,14 @@ if(!class_exists('RooPay2View')) {
 							<p><?php _e('To specify a price for your hidden content and override the default one, use the <code>[paypal email="myemail@domain.com" amount="12"]Your content here[/paypal]</code> shortcode.', 'pay2view'); ?></p>
 							<p><?php _e('Place another shortcode inside the <strong>Multiuser Pay2View</strong> payment shortcode: <code>[paypal][another-shortcode][/paypal]</code>.', 'pay2view'); ?></p>
 							<p><?php _e('Based on your capability behaviour selection, only guests and non-members see the payment button. Members always see the hidden content.', 'pay2view'); ?></p>
-							<p><small><a href="http://getbutterfly.com/wordpress-plugins/multiuser-pay2view/" rel="external">http://getbutterfly.com/wordpress-plugins/multiuser-pay2view/</a></small></p>
 						</div>
 					</div>
+                    <div class="postbox">
+                        <div class="inside">
+                            <p>For support, feature requests and bug reporting, please visit the <a href="//getbutterfly.com/" rel="external">official website</a>.</p>
+                            <p>&copy;<?php echo date('Y'); ?> <a href="//getbutterfly.com/" rel="external"><strong>getButterfly</strong>.com</a> &middot; <a href="//getbutterfly.com/forums/" rel="external">Support forums</a> &middot; <a href="//getbutterfly.com/trac/" rel="external">Trac</a> &middot; <small>Code wrangling since 2005</small></p>
+                        </div>
+                    </div>
 				</div>
 			</div>
 			<?php 
@@ -226,8 +230,6 @@ if(!class_exists('RooPay2View')) {
 			</form>
 			<br><br>';
 
-            $button .= 'Generating button for ' . $a['email'] . ' with a value of ' . $a['currency'] . $a['amount'] . '';
-
 			return $button;
 		}
 	}
@@ -242,7 +244,7 @@ if(!function_exists('RooPay2View_ap')) {
 		if(!isset($p2v))
 			return;
 
-		add_options_page('Multiuser Pay2View', 'Multiuser Pay2View', 'manage_options', basename(__FILE__), array(&$p2v, 'printAdminPanel'));
+		add_options_page('Pay2View', 'Pay2View', 'manage_options', basename(__FILE__), array(&$p2v, 'printAdminPanel'));
 	}
 }
 if(isset($p2v)) {
